@@ -30,3 +30,4 @@ If herb and ore tooltips never appear, turn **off Hide World Tips** in TipTac. T
 
 - English client skill-up and node names
 - Gathering cap 450 (WotLK)
+- Live Beasts/Dragonkin show `Est. Skinning` (guess from type + level). The real `Skinnable` line is only on corpses

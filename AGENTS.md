@@ -15,6 +15,8 @@ WotLK 3.3.5a backport of Foxthorn's GatherNotify. Shows required Mining / Herbal
 - Keep Classic names: Wintersbite, Plaguebloom
 - Mining / herbalism required skills should match 3.3.5a wotlkdb values
 - Skinning uses the WotLK curve (skull mobs are `UnitLevel` -1; parse the tooltip level or use the formula)
+- Live Beast/Dragonkin that you can attack get an estimate line (`Est. Skinning 360`), not a guaranteed skin. Skip players, player-controlled units, and `minus`/`trivial` critters
+- Confirmed `Skinnable` + exact requirement stays on corpses only
 - Never create a cursor-anchored fallback tooltip. TipTac `hideWorldTips` hides world tips; a custom `ANCHOR_CURSOR` tip gets stuck
 - Hook GameTooltip on `PLAYER_LOGIN` so TipTac (hooks on `VARIABLES_LOADED`) rewrites unit tips first
 - Only edit `GameTooltip` while it is shown. Re-apply after `GameTooltip:Show()` because TipTac calls `Show()` after rebuilding unit tips
