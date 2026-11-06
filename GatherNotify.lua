@@ -506,7 +506,7 @@ function GatherNotify.IsSkinType(unit)
 		return false
 	end
 	local ctype = UnitCreatureType(unit)
-	return ctype == "Beast" or ctype == "Dragonkin"
+	return ctype == "Beast" or ctype == "Dragonkin" or ctype == "Demon"
 end
 
 function GatherNotify.IsProbablySkinnable(unit)
@@ -586,10 +586,13 @@ end
 
 function GatherNotify.ProcessSkinningTooltip(tooltip)
 	local unit = GatherNotify.GetTooltipUnit(tooltip)
-	local hasSkinning, lineIndex = GatherNotify.HasSkinningLine(tooltip)
+	local hasSkinning = GatherNotify.HasSkinningLine(tooltip)
 	local deadGuess = GatherNotify.IsProbablySkinnable(unit)
+	if hasSkinning or deadGuess then
+		return
+	end
 	local liveGuess = GatherNotify.IsLiveSkinEstimate(unit)
-	if not hasSkinning and not deadGuess and not liveGuess then
+	if not liveGuess then
 		return
 	end
 
@@ -615,22 +618,7 @@ function GatherNotify.ProcessSkinningTooltip(tooltip)
 		end
 	end
 
-	if hasSkinning or deadGuess then
-		local newstr = GatherNotify.FormatSkillLine("Skinnable", req, "Skinning")
-		local fontstring = lineIndex and select(1, GN_TooltipFontString(tooltip, lineIndex))
-		local lineText = fontstring and GN_Strip(fontstring:GetText()) or ""
-		if fontstring and (lineText == "Skinnable" or lineText:match("^Skinnable")) then
-			fontstring:SetText(newstr)
-			GatherNotify.updating = true
-			tooltip:Show()
-			GatherNotify.updating = false
-		else
-			GatherNotify.AddSkinningLine(tooltip, newstr, r, g, b)
-		end
-		return
-	end
-
-	GatherNotify.AddSkinningLine(tooltip, GatherNotify.FormatSkillLine("Est. Skinning", req, "Skinning"), r, g, b)
+	GatherNotify.AddSkinningLine(tooltip, GatherNotify.FormatSkillLine("Est. Skinning at", req, "Skinning"), r, g, b)
 end
 
 function GatherNotify.ProcessTooltip(tooltip)
